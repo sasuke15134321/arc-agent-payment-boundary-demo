@@ -1,0 +1,19 @@
+# Secrets — NEVER commit
+.env
+*.pem
+*.key
+private_key*
+seed_phrase*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Runtime data (local JSON storage — ephemeral demo only)
+data/*.json
+
+# Logs
+*.log
