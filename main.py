@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse, Response
 from pydantic import BaseModel, Field
 
 # ---------------------------------------------------------------------------
@@ -180,6 +180,22 @@ def root():
     </body>
     </html>
     """
+
+
+@app.get("/openapi.yaml")
+def serve_openapi():
+    content = (Path(__file__).parent / "openapi.yaml").read_text(encoding="utf-8")
+    return Response(content=content, media_type="text/yaml")
+
+
+@app.get("/llms.txt", response_class=PlainTextResponse)
+def serve_llms():
+    return (Path(__file__).parent / "llms.txt").read_text(encoding="utf-8")
+
+
+@app.get("/skill.md", response_class=PlainTextResponse)
+def serve_skill():
+    return (Path(__file__).parent / "skill.md").read_text(encoding="utf-8")
 
 
 @app.get("/health")
