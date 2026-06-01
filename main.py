@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 # ---------------------------------------------------------------------------
@@ -113,21 +114,72 @@ app = FastAPI(
 _HIGH_RISK_KEYWORDS = {"suspicious", "unknown", "high_risk"}
 
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 def root():
-    return {
-        "message": "Arc Agent Payment Boundary Demo",
-        "description": "Payment boundary layer for AI agents on Arc Testnet",
-        "documentation": "https://github.com/sasuke15134321/arc-agent-payment-boundary-demo",
-        "demo_url": "https://arc-agent-payment-boundary-demo-1.onrender.com",
-        "endpoints": {
-            "health": "/health",
-            "payment_check": "POST /api/arc/payment/check",
-            "payment_record": "POST /api/arc/payment/record",
-            "payment_report": "GET /api/arc/payment/report/{agent_id}",
-        },
-        "note": "This is a testnet demo only. No real funds, no private key management, no custody.",
-    }
+    return """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Arc Agent Payment Boundary Demo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px; background: #f9f9f9; }
+            .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+            h1 { color: #333; margin-top: 0; }
+            p { color: #666; line-height: 1.6; }
+            code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; }
+            a { color: #0066cc; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .endpoint { background: #f9f9f9; padding: 10px; margin: 10px 0; border-left: 3px solid #0066cc; }
+            .warning { background: #fff3cd; padding: 15px; border-radius: 4px; margin: 20px 0; }
+            ul { list-style: none; padding: 0; }
+            li { padding: 8px 0; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🏗️ Arc Agent Payment Boundary Demo</h1>
+            <p><strong>Payment boundary layer for AI agents on Arc Testnet</strong></p>
+
+            <h2>What is this?</h2>
+            <p>A safety gateway that checks budget, risk, and approval requirements before AI agents execute USDC transfers on Arc Testnet. Records real transaction hashes for audit trails.</p>
+
+            <h2>Endpoints</h2>
+            <div class="endpoint">
+                <code>GET /health</code> — Health check &amp; configuration
+            </div>
+            <div class="endpoint">
+                <code>POST /api/arc/payment/check</code> — Check payment eligibility
+            </div>
+            <div class="endpoint">
+                <code>POST /api/arc/payment/record</code> — Record payment &amp; tx hash
+            </div>
+            <div class="endpoint">
+                <code>GET /api/arc/payment/report/{agent_id}</code> — Get payment audit report
+            </div>
+
+            <h2>Links</h2>
+            <ul>
+                <li><a href="https://github.com/sasuke15134321/arc-agent-payment-boundary-demo">📖 GitHub Repository</a></li>
+                <li><a href="/health">🔍 Health Check</a></li>
+            </ul>
+
+            <div class="warning">
+                <strong>⚠️ Disclaimer:</strong> This is a testnet demo only.
+                <ul>
+                    <li>No real funds or production usage</li>
+                    <li>No private key management</li>
+                    <li>No custody or payment execution</li>
+                    <li>Not affiliated with Circle or Arc</li>
+                </ul>
+            </div>
+
+            <p><small>Arc Testnet • Chain ID: 5042002 • RPC: https://rpc.testnet.arc.network</small></p>
+        </div>
+    </body>
+    </html>
+    """
 
 
 @app.get("/health")
