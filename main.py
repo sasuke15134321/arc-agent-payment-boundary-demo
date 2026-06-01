@@ -113,6 +113,23 @@ app = FastAPI(
 _HIGH_RISK_KEYWORDS = {"suspicious", "unknown", "high_risk"}
 
 
+@app.get("/")
+def root():
+    return {
+        "message": "Arc Agent Payment Boundary Demo",
+        "description": "Payment boundary layer for AI agents on Arc Testnet",
+        "documentation": "https://github.com/sasuke15134321/arc-agent-payment-boundary-demo",
+        "demo_url": "https://arc-agent-payment-boundary-demo-1.onrender.com",
+        "endpoints": {
+            "health": "/health",
+            "payment_check": "POST /api/arc/payment/check",
+            "payment_record": "POST /api/arc/payment/record",
+            "payment_report": "GET /api/arc/payment/report/{agent_id}",
+        },
+        "note": "This is a testnet demo only. No real funds, no private key management, no custody.",
+    }
+
+
 @app.get("/health")
 def health():
     return {
