@@ -61,3 +61,4 @@ This project is an independent demo and is not officially affiliated with Circle
 - [openapi.yaml](openapi.yaml) — OpenAPI 3.1.0 schema for all endpoints
 - [llms.txt](llms.txt) — AI agent guidance: when to use, call flow, constraints
 - [skill.md](skill.md) — Skill description for Claude / AI agents
+- [/.well-known/agent.json](.well-known/agent.json) — Agent manifest for AI agent discovery

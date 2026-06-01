@@ -198,6 +198,12 @@ def serve_skill():
     return (Path(__file__).parent / "skill.md").read_text(encoding="utf-8")
 
 
+@app.get("/.well-known/agent.json")
+def serve_agent_manifest():
+    content = (Path(__file__).parent / ".well-known" / "agent.json").read_text(encoding="utf-8")
+    return Response(content=content, media_type="application/json")
+
+
 @app.get("/health")
 def health():
     return {

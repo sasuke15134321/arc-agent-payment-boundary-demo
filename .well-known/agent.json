@@ -1,0 +1,47 @@
+{
+  "name": "Arc Agent Payment Boundary Demo",
+  "version": "0.1.0",
+  "status": "testnet_demo_only",
+  "description": "Budget and audit gateway for AI agents paying with USDC on Arc Testnet",
+  "base_url": "https://arc-agent-payment-boundary-demo-1.onrender.com",
+  "network": {
+    "name": "Arc Testnet",
+    "chain_id": 5042002,
+    "rpc_url": "https://rpc.testnet.arc.network",
+    "explorer": "https://testnet.arcscan.app"
+  },
+  "endpoints": [
+    {"method": "GET",  "path": "/health"},
+    {"method": "POST", "path": "/api/arc/payment/check"},
+    {"method": "POST", "path": "/api/arc/payment/record"},
+    {"method": "GET",  "path": "/api/arc/payment/report/{agent_id}"}
+  ],
+  "ai_readable_files": [
+    "/openapi.yaml",
+    "/llms.txt",
+    "/skill.md"
+  ],
+  "use_cases": [
+    "pre_payment_budget_check",
+    "payment_risk_check",
+    "approval_boundary",
+    "post_payment_tx_hash_record",
+    "audit_report_for_ai_agent_payments"
+  ],
+  "constraints": {
+    "does_not_execute_payments": true,
+    "does_not_custody_funds": true,
+    "does_not_handle_private_keys": true,
+    "does_not_handle_seed_phrases": true,
+    "testnet_only": true,
+    "local_json_storage_demo_only": true,
+    "not_affiliated_with_circle_or_arc": true
+  },
+  "safety_notes": [
+    "no private keys",
+    "no seed phrases",
+    "no production custody",
+    "no mainnet funds",
+    "demo-only audit storage"
+  ]
+}
