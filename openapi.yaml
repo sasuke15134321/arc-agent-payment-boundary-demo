@@ -1,0 +1,269 @@
+openapi: 3.1.0
+info:
+  title: Arc Agent Payment Boundary Demo
+  version: 0.1.0
+  description: Budget and audit gateway for AI agents paying with USDC on Arc Testnet
+  x-demo-status: arc_testnet_demo_only
+  x-constraints:
+    does_not_execute_payments: true
+    does_not_custody_funds: true
+    does_not_handle_private_keys: true
+    does_not_handle_seed_phrases: true
+    testnet_only: true
+    not_affiliated_with_circle_or_arc: true
+    local_json_storage_demo_only: true
+
+servers:
+  - url: https://arc-agent-payment-boundary-demo-1.onrender.com
+    description: Render demo (Arc Testnet only)
+
+paths:
+  /health:
+    get:
+      operationId: health
+      summary: Health check and Arc Testnet configuration
+      tags: [Health]
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  version:
+                    type: string
+                    example: "0.1.0"
+                  arc_testnet:
+                    type: object
+                    properties:
+                      rpc_url:
+                        type: string
+                        example: https://rpc.testnet.arc.network
+                      chain_id:
+                        type: integer
+                        example: 5042002
+                      explorer:
+                        type: string
+                        example: https://testnet.arcscan.app
+                  note:
+                    type: string
+                    example: Testnet demo only. No real funds.
+
+  /api/arc/payment/check:
+    post:
+      operationId: payment_check
+      summary: Pre-payment check for budget, risk, and approval requirements
+      tags: [Payment Boundary]
+      description: >
+        Check whether an AI agent is allowed to proceed with a USDC payment on Arc Testnet.
+        Returns approval status, risk level, and a check_result_id for subsequent recording.
+        Does NOT execute the payment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentCheckRequest'
+      responses:
+        "200":
+          description: Check result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentCheckResponse'
+
+  /api/arc/payment/record:
+    post:
+      operationId: payment_record
+      summary: Record a completed Arc Testnet payment with tx hash
+      tags: [Payment Boundary]
+      description: >
+        Record the result of an Arc Testnet payment execution (performed externally by the wallet/user).
+        Stores tx_hash and arcscan_url for audit trail. Does NOT execute the payment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRecordRequest'
+      responses:
+        "200":
+          description: Record result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentRecordResponse'
+
+  /api/arc/payment/report/{agent_id}:
+    get:
+      operationId: payment_report
+      summary: Get payment audit report for an agent
+      tags: [Payment Boundary]
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The agent ID to retrieve the payment report for
+      responses:
+        "200":
+          description: Payment audit report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportResponse'
+
+components:
+  schemas:
+    PaymentCheckRequest:
+      type: object
+      required:
+        - agent_id
+        - payer_wallet
+        - payee_wallet
+        - amount_usdc
+        - payment_purpose
+        - requested_tool
+      properties:
+        agent_id:
+          type: string
+          example: arc_agent_001
+        payer_wallet:
+          type: string
+          description: Testnet wallet address only
+          example: "0x54dcB3c3043b57730CD1d2d523D4D51f6CAce1b5"
+        payee_wallet:
+          type: string
+          description: Testnet wallet address only
+          example: "0x54dcB3c3043b57730CD1d2d523D4D51f6CAce1b5"
+        amount_usdc:
+          type: number
+          example: 0.01
+        payment_purpose:
+          type: string
+          example: Arc Testnet Payment Boundary demo
+        requested_tool:
+          type: string
+          example: arc_usdc_transfer
+        risk_context:
+          type: string
+          default: ""
+        per_payment_limit:
+          type: number
+          default: 10.0
+        daily_limit:
+          type: number
+          default: 100.0
+        requires_human_approval_threshold:
+          type: number
+          default: 5.0
+
+    PaymentCheckResponse:
+      type: object
+      properties:
+        payment_check_status:
+          type: string
+          enum: [approved, denied, requires_review]
+        allowed:
+          type: boolean
+        requires_human_approval:
+          type: boolean
+        risk_level:
+          type: string
+          enum: [low, high]
+        budget_status:
+          type: string
+          enum: [within_limit, over_limit]
+        recommended_next_step:
+          type: string
+        check_result_id:
+          type: string
+
+    PaymentRecordRequest:
+      type: object
+      required:
+        - agent_id
+        - check_result_id
+        - amount_usdc
+        - payee_wallet
+        - payment_purpose
+        - payment_status
+      properties:
+        agent_id:
+          type: string
+        check_result_id:
+          type: string
+          description: ID from /api/arc/payment/check response
+        tx_hash:
+          type: string
+          description: Arc Testnet transaction hash (from external wallet execution)
+          example: "0x750db7ebf77809b52b1718321dce4f3d1e91cdc33c112b89d86e96b2253459f1"
+        arcscan_url:
+          type: string
+          example: "https://testnet.arcscan.app/tx/0x750db7ebf77809b52b1718321dce4f3d1e91cdc33c112b89d86e96b2253459f1"
+        amount_usdc:
+          type: number
+        payee_wallet:
+          type: string
+        payment_purpose:
+          type: string
+        payment_status:
+          type: string
+          enum: [success, confirmed, completed, failed]
+
+    PaymentRecordResponse:
+      type: object
+      properties:
+        record_status:
+          type: string
+        audit_ready:
+          type: boolean
+        record_id:
+          type: string
+        recommended_next_step:
+          type: string
+
+    PaymentRecordItem:
+      type: object
+      properties:
+        record_id:
+          type: string
+        check_result_id:
+          type: string
+        tx_hash:
+          type: string
+        arcscan_url:
+          type: string
+        amount_usdc:
+          type: number
+        payee_wallet:
+          type: string
+        payment_purpose:
+          type: string
+        payment_status:
+          type: string
+        recorded_at:
+          type: string
+
+    ReportResponse:
+      type: object
+      properties:
+        agent_id:
+          type: string
+        total_payments:
+          type: integer
+        total_amount_usdc:
+          type: number
+        payment_records:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentRecordItem'
+        human_review_required_count:
+          type: integer
+        audit_ready_count:
+          type: integer

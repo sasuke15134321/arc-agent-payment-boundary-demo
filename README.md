@@ -55,3 +55,9 @@ No private keys, no seed phrases are ever saved.
 Render Start Command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
 
 This project is an independent demo and is not officially affiliated with Circle, Arc, or any related organizations.
+
+## AI-readable files
+
+- [openapi.yaml](openapi.yaml) — OpenAPI 3.1.0 schema for all endpoints
+- [llms.txt](llms.txt) — AI agent guidance: when to use, call flow, constraints
+- [skill.md](skill.md) — Skill description for Claude / AI agents
