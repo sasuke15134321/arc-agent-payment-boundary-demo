@@ -1,6 +1,23 @@
 # Arc Agent Payment Boundary Demo
 
-Minimum Payment Boundary API skeleton for AI agent USDC payments on Arc Testnet.
+AI-agent payment boundary demo on Arc Testnet.
+
+Use this demo when an AI agent needs to decide whether a payment should be approved before execution.
+
+It helps separate:
+- payment intent
+- approval decision
+- execution boundary
+- payment evidence
+- human review
+
+This is useful for agents, developers, and reviewers who need a small external control layer around AI-agent payments.
+
+Independent Arc Testnet demo.
+Not official Arc or Circle.
+Does not execute payments.
+Testnet only.
+Not a production payment gateway.
 
 ## Step 1 scope
 

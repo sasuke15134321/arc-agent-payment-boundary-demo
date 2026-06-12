@@ -3,6 +3,19 @@
 A pre/post-payment boundary layer for AI agents using USDC on Arc Testnet.
 This is a testnet demo. It does not execute payments or custody funds.
 
+Use this when:
+- an AI agent is about to make or approve a payment
+- a developer needs to separate approval from execution
+- a reviewer needs payment evidence before or after execution
+- a system needs a boundary between agent intent and wallet execution
+
+Do not use this as:
+- an official Arc service
+- an official Circle service
+- a production payment gateway
+- a wallet
+- a settlement layer
+
 ## When to use
 
 - Before an AI agent performs a USDC payment on Arc Testnet (call /check first)

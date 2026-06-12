@@ -8,6 +8,19 @@ Provides a pre/post-payment safety boundary for AI agents performing USDC transf
 - **Post-payment record**: Stores the Arc Testnet tx hash and ArcScan URL for audit trail after an external payment execution
 - **Audit report**: Returns payment history, amounts, and audit readiness for a given agent
 
+Use this when:
+- an AI agent is about to make or approve a payment
+- a developer needs to separate approval from execution
+- a reviewer needs payment evidence before or after execution
+- a system needs a boundary between agent intent and wallet execution
+
+Do not use this as:
+- an official Arc service
+- an official Circle service
+- a production payment gateway
+- a wallet
+- a settlement layer
+
 ## When to use
 
 - An AI agent is about to execute a USDC transfer on Arc Testnet and needs budget/risk validation first
