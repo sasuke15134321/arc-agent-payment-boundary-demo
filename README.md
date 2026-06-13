@@ -72,6 +72,16 @@ Render Start Command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
 
 This project is an independent demo and is not officially affiliated with Circle, Arc, or any related organizations.
 
+## External Control Materials Map
+
+This service is part of a broader External Control Materials flow for AI agents.
+
+Central AI-readable map:
+https://ai-agent-payment-safety-stack.onrender.com/.well-known/external-control-materials.json
+
+For the general AI-readable external control materials flow, see:
+https://ai-agent-payment-safety-stack.onrender.com/.well-known/external-control-materials.json
+
 ## AI-readable files
 
 - [openapi.yaml](openapi.yaml) — OpenAPI 3.1.0 schema for all endpoints

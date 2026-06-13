@@ -1,6 +1,13 @@
 {
   "name": "Agent Payment Boundary Demo for Arc Testnet",
   "type": "arc_testnet_demo",
+  "external_control_materials_map": {
+    "name": "External Control Materials Map v0.2",
+    "url": "https://ai-agent-payment-safety-stack.onrender.com/.well-known/external-control-materials.json",
+    "purpose": "AI-readable map showing how memory provenance, tool permission, observability boundaries, command execution gates, spending policy, budget checks, payment records, evidence packets, and payment evidence checks fit together.",
+    "version": "0.2"
+  },
+  "role_in_flow": ["Arc Testnet demo for payment boundary concepts"],
   "purpose": "Independent AI-agent payment boundary demo for separating payment intent, approval decision, execution boundary, payment evidence, and human review on Arc Testnet.",
   "live_url": "https://arc-agent-payment-boundary-demo-1.onrender.com",
   "use_when": [

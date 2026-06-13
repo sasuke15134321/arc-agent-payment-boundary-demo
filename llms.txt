@@ -24,3 +24,13 @@ Non-goals:
 - does not handle private keys
 - not a wallet
 - not a settlement layer
+
+## External Control Materials Map
+
+This service is part of a broader External Control Materials flow for AI agents.
+
+Central AI-readable map:
+https://ai-agent-payment-safety-stack.onrender.com/.well-known/external-control-materials.json
+
+For the general AI-readable external control materials flow, see:
+https://ai-agent-payment-safety-stack.onrender.com/.well-known/external-control-materials.json
