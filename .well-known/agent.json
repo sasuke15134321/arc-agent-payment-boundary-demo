@@ -1,47 +1,28 @@
 {
-  "name": "Arc Agent Payment Boundary Demo",
-  "version": "0.1.0",
-  "status": "testnet_demo_only",
-  "description": "Budget and audit gateway for AI agents paying with USDC on Arc Testnet",
-  "base_url": "https://arc-agent-payment-boundary-demo-1.onrender.com",
-  "network": {
-    "name": "Arc Testnet",
-    "chain_id": 5042002,
-    "rpc_url": "https://rpc.testnet.arc.network",
-    "explorer": "https://testnet.arcscan.app"
-  },
-  "endpoints": [
-    {"method": "GET",  "path": "/health"},
-    {"method": "POST", "path": "/api/arc/payment/check"},
-    {"method": "POST", "path": "/api/arc/payment/record"},
-    {"method": "GET",  "path": "/api/arc/payment/report/{agent_id}"}
+  "name": "Agent Payment Boundary Demo for Arc Testnet",
+  "type": "arc_testnet_demo",
+  "purpose": "Independent AI-agent payment boundary demo for separating payment intent, approval decision, execution boundary, payment evidence, and human review on Arc Testnet.",
+  "live_url": "https://arc-agent-payment-boundary-demo-1.onrender.com",
+  "use_when": [
+    "an AI agent needs to understand whether a payment should be approved before execution",
+    "a developer needs to separate approval intent from wallet execution",
+    "a reviewer needs to inspect payment evidence flow",
+    "a system needs a boundary between agent intent and payment execution"
   ],
-  "ai_readable_files": [
-    "/openapi.yaml",
-    "/llms.txt",
-    "/skill.md"
+  "capabilities": [
+    "payment intent description",
+    "approval boundary explanation",
+    "execution boundary separation",
+    "payment evidence review",
+    "human review boundary"
   ],
-  "use_cases": [
-    "pre_payment_budget_check",
-    "payment_risk_check",
-    "approval_boundary",
-    "post_payment_tx_hash_record",
-    "audit_report_for_ai_agent_payments"
-  ],
-  "constraints": {
-    "does_not_execute_payments": true,
-    "does_not_custody_funds": true,
-    "does_not_handle_private_keys": true,
-    "does_not_handle_seed_phrases": true,
-    "testnet_only": true,
-    "local_json_storage_demo_only": true,
-    "not_affiliated_with_circle_or_arc": true
-  },
-  "safety_notes": [
-    "no private keys",
-    "no seed phrases",
-    "no production custody",
-    "no mainnet funds",
-    "demo-only audit storage"
+  "non_goals": [
+    "not an official Arc service",
+    "not an official Circle service",
+    "not a production payment gateway",
+    "does not execute payments",
+    "does not handle private keys",
+    "not a wallet",
+    "not a settlement layer"
   ]
 }

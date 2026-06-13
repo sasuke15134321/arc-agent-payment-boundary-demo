@@ -1,81 +1,26 @@
-# Arc Agent Payment Boundary Demo
+Agent Payment Boundary Demo for Arc Testnet
 
-A pre/post-payment boundary layer for AI agents using USDC on Arc Testnet.
-This is a testnet demo. It does not execute payments or custody funds.
+This is an independent Arc Testnet demo for AI-agent payment boundary reasoning.
 
 Use this when:
-- an AI agent is about to make or approve a payment
-- a developer needs to separate approval from execution
-- a reviewer needs payment evidence before or after execution
-- a system needs a boundary between agent intent and wallet execution
+- an AI agent needs to understand whether a payment should be approved before execution
+- a developer needs to separate approval intent from wallet execution
+- a reviewer needs to inspect payment evidence flow
+- a system needs a boundary between agent intent and payment execution
 
-Do not use this as:
-- an official Arc service
-- an official Circle service
-- a production payment gateway
-- a wallet
-- a settlement layer
+Core concepts:
+- payment intent
+- approval decision
+- execution boundary
+- payment evidence
+- human review
+- agent payment safety
 
-## When to use
-
-- Before an AI agent performs a USDC payment on Arc Testnet (call /check first)
-- After an Arc Testnet payment tx hash is available (call /record)
-- When an audit trail of payment decisions is needed (call /report)
-
-## When NOT to use
-
-- To execute payments (this API does not submit transactions)
-- To store or handle private keys or seed phrases
-- For production custody or fund management
-- For legal, tax, or compliance decisions
-- As a replacement for production-grade audit storage
-
-## Endpoints
-
-| Method | Path | Purpose |
-|--------|------|---------|
-| GET | /health | Health check and Arc Testnet configuration |
-| POST | /api/arc/payment/check | Pre-payment check: budget, risk, approval |
-| POST | /api/arc/payment/record | Post-payment record: tx hash, audit trail |
-| GET | /api/arc/payment/report/{agent_id} | Payment audit report for an agent |
-
-## Call flow
-
-1. AI agent calls `POST /api/arc/payment/check`
-   - Input: agent_id, payer_wallet, payee_wallet, amount_usdc, purpose, risk_context, limits
-   - Output: allowed (bool), risk_level, check_result_id
-
-2. If allowed=true: wallet/user executes the Arc Testnet USDC payment externally
-   - This demo does NOT execute the payment
-   - Obtain the tx_hash from the wallet or ArcScan
-
-3. AI agent calls `POST /api/arc/payment/record`
-   - Input: agent_id, check_result_id, tx_hash, arcscan_url, amount_usdc, payment_status
-   - Output: record_id, audit_ready
-
-4. AI agent (or human auditor) calls `GET /api/arc/payment/report/{agent_id}`
-   - Output: total_payments, total_amount_usdc, payment_records with tx hashes, audit_ready_count
-
-## Arc Testnet configuration
-
-- Chain ID: 5042002
-- RPC: https://rpc.testnet.arc.network
-- Explorer: https://testnet.arcscan.app
-
-## Constraints
-
-- does_not_execute_payments: true
-- does_not_custody_funds: true
-- does_not_handle_private_keys: true
-- does_not_handle_seed_phrases: true
-- testnet_only: true
-- not_affiliated_with_circle_or_arc: true
-- local_json_storage_demo_only: true
-
-## Service URL
-
-https://arc-agent-payment-boundary-demo-1.onrender.com
-
-## Source
-
-https://github.com/sasuke15134321/arc-agent-payment-boundary-demo
+Non-goals:
+- not an official Arc service
+- not an official Circle service
+- not a production payment gateway
+- does not execute payments
+- does not handle private keys
+- not a wallet
+- not a settlement layer

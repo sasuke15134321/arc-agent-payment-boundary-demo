@@ -1,23 +1,22 @@
-# Arc Agent Payment Boundary Demo
+# Agent Payment Boundary Demo for Arc Testnet
 
-AI-agent payment boundary demo on Arc Testnet.
+An independent AI-agent payment boundary demo for Arc Testnet.
 
-Use this demo when an AI agent needs to decide whether a payment should be approved before execution.
+Use this demo when an AI agent, developer, or reviewer needs to understand how to separate:
 
-It helps separate:
 - payment intent
 - approval decision
 - execution boundary
 - payment evidence
 - human review
 
-This is useful for agents, developers, and reviewers who need a small external control layer around AI-agent payments.
+This demo is designed to show the boundary around agent payments before execution.
 
-Independent Arc Testnet demo.
-Not official Arc or Circle.
-Does not execute payments.
-Testnet only.
-Not a production payment gateway.
+It does not execute payments.
+It does not handle private keys.
+It is testnet-only.
+It is not an official Arc or Circle project.
+It is not a production payment gateway.
 
 ## Step 1 scope
 
